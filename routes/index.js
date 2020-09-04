@@ -1,14 +1,12 @@
-var express = require("express");
-var router = express.Router();
+const express = require("express");
 
-/* GET home page. */
-router.get("/", function (_req, res) {
-  res.render("index", { name: "Ryan Malesic" });
-});
+const BlogController = require("../controllers/blog");
+const HomeController = require("../controllers/home");
 
-/* GET bio page. */
-router.get("/bio", function (_req, res) {
-  res.render("bio", { name: "Ryan Malesic" });
-});
+const router = express.Router();
+
+router.get("/", HomeController.showHome);
+router.get("/blogs", BlogController.showList)
+router.get("/blogs/add", BlogController.showAdd)
 
 module.exports = router;

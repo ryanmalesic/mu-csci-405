@@ -1,0 +1,41 @@
+<script src="/javascripts/jquery/jquery.min.js"></script>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="/">
+      <h1 class="title">Ryan Malesic</h1>
+    </a>
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+      data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      <a class="navbar-item" href="/">
+        My Blog
+      </a>
+
+      <a class="navbar-item" href="/blogs">
+        List Blogs
+      </a>
+
+      <a class="navbar-item" href="/blogs/add">
+        Add Blog
+      </a>
+    </div>
+  </div>
+</nav>
+
+<script>
+  $(document).ready(function () {
+    $(".navbar-burger").click(function () {
+      $(".navbar-burger").toggleClass("is-active");
+      $(".navbar-menu").toggleClass("is-active");
+    });
+  });
+</script>
