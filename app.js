@@ -4,12 +4,14 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 
-const indexRouter = require("./routes/index");
+require("./app_server/db");
+
+const indexRouter = require("./app_server/routes/index");
 
 const app = express();
 
 // view engine setup
-app.set("views", path.join(__dirname, "views"));
+app.set("views", path.join(__dirname, "./app_server/views"));
 app.set("view engine", "ejs");
 
 app.use(logger("dev"));
@@ -18,8 +20,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, "public")));
-app.use('/stylesheets/bulma', express.static(__dirname + '/node_modules/bulma/css/'));
-app.use('/javascripts/jquery', express.static(__dirname + '/node_modules/jquery/dist/'));
+app.use(
+  "/stylesheets/bulma",
+  express.static(__dirname + "/node_modules/bulma/css/")
+);
+app.use(
+  "/javascripts/jquery",
+  express.static(__dirname + "/node_modules/jquery/dist/")
+);
 
 app.use("/", indexRouter);
 

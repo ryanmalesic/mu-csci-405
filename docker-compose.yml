@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+  app-server:
+    image: ryanmalesic/mu-csci-406-lab3-app-server
+    depends_on:
+      - mongo
+    environment:
+      MONGO_USER: ${MONGO_USER}
+      MONGO_PASS: ${MONGO_PASS}
+      MONGO_HOST: ${MONGO_HOST}
+      MONGO_PORT: ${MONGO_PORT}
+      MONGO_DB: ${MONGO_DB}
+      PORT: ${PORT}
+    ports:
+      - ${PORT}:${PORT}
+    restart: always
+
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASS}
