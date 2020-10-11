@@ -4,9 +4,10 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 
-require("./app_server/db");
+require("./app_api/db");
 
-const indexRouter = require("./app_server/routes/index");
+const apiRouter = require("./app_api/routes");
+const serverRouter = require("./app_server/routes");
 
 const app = express();
 
@@ -19,7 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "./app_server/public")));
 app.use(
   "/stylesheets/bulma",
   express.static(__dirname + "/node_modules/bulma/css/")
@@ -29,7 +30,8 @@ app.use(
   express.static(__dirname + "/node_modules/jquery/dist/")
 );
 
-app.use("/", indexRouter);
+app.use("/", serverRouter);
+app.use("/api", apiRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

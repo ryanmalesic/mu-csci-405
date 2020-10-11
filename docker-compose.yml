@@ -1,10 +1,11 @@
 version: "3.8"
 services:
-  app-server:
-    image: ryanmalesic/mu-csci-406-lab3-app-server
+  app:
+    image: ryanmalesic/mu-csci-406-lab4-app
     depends_on:
       - mongo
     environment:
+      API_URL: http://app:${PORT}
       MONGO_USER: ${MONGO_USER}
       MONGO_PASS: ${MONGO_PASS}
       MONGO_HOST: ${MONGO_HOST}

@@ -1,0 +1,120 @@
+<form method="POST">
+  <div class="field is-horizontal">
+    <div class="field-label is-normal">
+      <label class="label">Author</label>
+    </div>
+    <div class="field-body">
+      <div class="field">
+        <p class="control is-expanded">
+          <input
+            required
+            name="authorName"
+            class="input"
+            type="text"
+            placeholder="Name - Ryan Malesic"
+            value="<%= blog ? blog.author.name : '' %>"
+          />
+        </p>
+      </div>
+      <div class="field has-addons">
+        <p class="control">
+          <a class="button is-static"> @ </a>
+        </p>
+        <p class="control is-expanded">
+          <input
+            required
+            name="authorHandle"
+            class="input"
+            type="text"
+            placeholder="Handle - ryanmalesic"
+            value="<%= blog ? blog.author.handle : '' %>"
+          />
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="field is-horizontal">
+    <div class="field-label"></div>
+    <div class="field-body">
+      <div class="field">
+        <p class="control is-expanded">
+          <input
+            required
+            name="authorAvatar"
+            class="input"
+            type="text"
+            placeholder="Profile picture url - https://icon-library.net/images/anonymous-avatar-icon/anonymous-avatar-icon-13.jpg"
+            value="<%= blog ? blog.author.avatar : '' %>"
+          />
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="field is-horizontal">
+    <div class="field-label is-normal">
+      <label class="label">Title</label>
+    </div>
+    <div class="field-body">
+      <div class="field">
+        <p class="control is-expanded">
+          <input
+            required
+            name="title"
+            class="input"
+            type="text"
+            placeholder="Lorum Ipsum 1"
+            value="<%= blog ? blog.title : '' %>"
+          />
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="field is-horizontal">
+    <div class="field-label is-normal">
+      <label class="label">Content</label>
+    </div>
+    <div class="field-body">
+      <div class="field">
+        <div class="control">
+          <textarea required name="content" class="textarea">
+            <%= blog ? blog.content : '' %>
+          </textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="field is-horizontal">
+    <div class="field-label is-normal">
+      <label class="label">Comma-Separated Tags</label>
+    </div>
+    <div class="field-body">
+      <div class="field">
+        <p class="control is-expanded">
+          <input
+            required
+            name="tags"
+            class="input"
+            type="text"
+            placeholder="mean,mongo,express,angular,node,docker,webdev"
+            value="<%= blog ? blog.tags.join(',') : '' %>"
+          />
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="field is-horizontal">
+    <div class="field-label"></div>
+    <div class="field-body">
+      <div class="field">
+        <div class="control">
+          <button type="submit" class="button is-primary">Go</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

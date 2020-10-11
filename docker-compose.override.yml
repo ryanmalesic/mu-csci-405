@@ -1,7 +1,8 @@
 version: "3.8"
 services:
-  app-server:
+  app:
     build: ./
     command: npm run dev
     volumes:
+      - ./app_api:/app/app_api
       - ./app_server:/app/app_server

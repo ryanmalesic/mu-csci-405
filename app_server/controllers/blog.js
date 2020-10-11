@@ -1,37 +1,114 @@
-const moment = require("moment");
+const request = require("request");
 
-const Blog = require("../models/blog");
 
 const BlogController = {
   showList: (_req, res) => {
-    Blog.find((_err, blogs) => {
-      const context = {
-        blogs: blogs.map((blog) => ({
-          id: blog.id,
-          author: {
-            avatar: blog.author.avatar,
-            name: blog.author.name,
-            handle: blog.author.handle,
-          },
-          title: blog.title,
-          content: blog.content,
-          createdOn: moment(blog.createdOn).format("LLL"),
-          lastEditedOn: moment(blog.lastEditedOn).format("LLL"),
-          tags: blog.tags,
-        })),
-      };
+    const requestOptions = {
+      url: `${process.env.API_URL}/api/blogs`,
+      method: "GET",
+      json: {}
+    }
 
-      res.render("blogs/list", context);
-    });
+    request(
+      requestOptions,
+      (_err, _response, body) => {
+        res.render("blogs/list", { blogs: body });
+      }
+    )
   },
-  showAdd: (_req, res) => {
-    res.render("blogs/add");
+  showAdd: (req, res) => {
+    res.render("blogs/add", { blogId: req.params.blogId });
   },
-  showEdit: (_req, res) => {
-    res.render("blogs/edit");
+  add: (req, res) => {
+    const requestOptions = {
+      url: `${process.env.API_URL}/api/blogs`,
+      method: "POST",
+      json: {
+        author: {
+          avatar: req.body.authorAvatar,
+          handle: req.body.authorHandle,
+          name: req.body.authorName
+        },
+        title: req.body.title,
+        content: req.body.content,
+        tags: req.body.tags.split(",")
+      }
+    }
+
+    request(
+      requestOptions,
+      (_err, _response, _body) => {
+        res.redirect('/blogs')
+      }
+    )
   },
-  showDelete: (_req, res) => {
-    res.render("blogs/delete");
+  showGet: (req, res) => {
+    const requestOptions = {
+      url: `${process.env.API_URL}/api/blogs/${req.params.id}`,
+      method: "GET",
+      json: {}
+    }
+
+    request(
+      requestOptions,
+      (_err, _response, body) => {
+        res.render("blogs/get", { blog: body });
+      }
+    )
+  },
+  showEdit: (req, res) => {
+    const requestOptions = {
+      url: `${process.env.API_URL}/api/blogs/${req.params.id}`,
+      method: "GET",
+      json: {}
+    }
+
+    request(
+      requestOptions,
+      (_err, _response, body) => {
+        res.render("blogs/edit", { blog: body });
+      }
+    )
+  },
+  edit: (req, res) => {
+    const requestOptions = {
+      url: `${process.env.API_URL}/api/blogs/${req.params.id}`,
+      method: "PUT",
+      json: {
+        author: {
+          avatar: req.body.authorAvatar,
+          handle: req.body.authorHandle,
+          name: req.body.authorName
+        },
+        title: req.body.title,
+        content: req.body.content,
+        tags: req.body.tags.split(",")
+      }
+    }
+
+    request(
+      requestOptions,
+      (_err, _response, _body) => {
+        res.redirect('/blogs')
+      }
+    )
+  },
+  showDelete: (req, res) => {
+    res.render("blogs/delete", { id: req.params.id });
+  },
+  delete: (req, res) => {
+    const requestOptions = {
+      url: `${process.env.API_URL}/api/blogs/${req.params.id}`,
+      method: "DELETE",
+      json: {}
+    }
+
+    request(
+      requestOptions,
+      (_err, _response, _body) => {
+        res.redirect('/blogs')
+      }
+    )
   },
 };
 

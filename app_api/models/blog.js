@@ -3,15 +3,15 @@ const mongoose = require("mongoose");
 
 const blogSchema = mongoose.Schema({
   author: {
-    avatar: String,
-    name: String,
-    handle: String,
+    avatar: { type: String, required: true },
+    name: { type: String, required: true },
+    handle: { type: String, required: true },
   },
-  title: String,
-  content: String,
-  createdOn: Date,
-  lastEditedOn: Date,
-  tags: [String],
+  title: { type: String, required: true },
+  content: { type: String, required: true },
+  createdOn: { type: Date, "default": Date.now },
+  lastEditedOn: { type: Date },
+  tags: { type: [String], required: true },
 });
 
 const Blog = mongoose.model("Blog", blogSchema);
@@ -27,7 +27,7 @@ const seed = () => {
     title: "Lorem Ipsum 1",
     content:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Id volutpat lacus laoreet non.",
-    createdOn: moment().subtract(1, "days").toDate(),
+    createdOn: moment().subtract(3, "days").toDate(),
     lastEditedOn: moment().subtract(1, "days").toDate(),
     tags: ["eleifend", "quam", "adipiscing"],
   }).save();
@@ -42,7 +42,7 @@ const seed = () => {
     title: "Lorem Ipsum 2",
     content:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Pellentesque diam volutpat commodo sed egestas egestas fringilla.",
-    createdOn: moment().subtract(1, "days").toDate(),
+    createdOn: moment().subtract(2, "days").toDate(),
     lastEditedOn: moment().subtract(1, "days").toDate(),
     tags: ["ullamcorper", "dignissim", "cras"],
   }).save();
