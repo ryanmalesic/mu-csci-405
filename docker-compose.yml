@@ -5,12 +5,6 @@ services:
     depends_on:
       - mongo
     environment:
-      API_URL: http://app:${PORT}
-      MONGO_USER: ${MONGO_USER}
-      MONGO_PASS: ${MONGO_PASS}
-      MONGO_HOST: ${MONGO_HOST}
-      MONGO_PORT: ${MONGO_PORT}
-      MONGO_DB: ${MONGO_DB}
       PORT: ${PORT}
     ports:
       - ${PORT}:${PORT}
@@ -19,6 +13,3 @@ services:
   mongo:
     image: mongo
     restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASS}

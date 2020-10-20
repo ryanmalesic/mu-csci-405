@@ -1,22 +1,12 @@
 const mongoose = require("mongoose");
 
-const {
-  MONGO_USER,
-  MONGO_PASS,
-  MONGO_HOST,
-  MONGO_PORT,
-  MONGO_DB,
-} = process.env;
-
 const opts = {
   keepAlive: 1,
-  user: MONGO_USER,
-  pass: MONGO_PASS,
-  dbName: MONGO_DB,
+  dbName: "blogger",
   useNewUrlParser: true,
 };
 
-mongoose.connect(`mongodb://${MONGO_HOST}:${MONGO_PORT}`, opts);
+mongoose.connect(`mongodb://mongo`, opts);
 
 const db = mongoose.connection;
 

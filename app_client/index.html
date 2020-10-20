@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+  <head>
+    <base href="/" />
+
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="/css/bulma/bulma.css" />
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.1/angular.min.js"
+      integrity="sha512-QFmqHpmYymVcJudvGsU3IDBfwnTOdfmY42YUwyORin2namhG6FCku8MiSc6igF2OIwChlEuFkvuwNo6pbMOUSg=="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/angular-route/1.8.1/angular-route.min.js"
+      integrity="sha512-pW5u94XNfb4HGKqQ9XUdZzAlfGSPWkha6VYghlIGqCBNlYqyPt1wo5m8jf2So8mNTodVwj1CQIayRP+x2Q5c+g=="
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
+  <script type="text/ng-template" id="templates/home.html">
+    <navbar navbar-active="navbarActive" toggle-navbar-active="toggleNavbarActive"></navbar>
+  </script>
+
+  <script type="text/ng-template" id="templates/blogs.html">
+    <navbar navbar-active="navbarActive" toggle-navbar-active="toggleNavbarActive"></navbar>
+
+    <div class="section">
+      <div class="container">
+        <h1 class="title is-1">Blog List</h1>
+        <p class="subtitle is-3">Read 'em all!</p>
+      </div>
+    </div>
+
+    <bloglist blogs="blogs"></bloglist>
+  </script>
+
+  <script type="text/ng-template" id="templates/blogs-add.html">
+    <navbar navbar-active="navbarActive" toggle-navbar-active="toggleNavbarActive"></navbar>
+
+    <div class="section">
+      <div class="container">
+        <h1 class="title is-1">Blog Add</h1>
+        <p class="subtitle is-3">Write a new blog!</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="container">
+        <blogform blog="blog" editable="editable" handle-cancel="handleCancel" handle-submit="handleSubmit"></blogform>
+      </div>
+    </div>
+  </script>
+
+  <script type="text/ng-template" id="templates/blogs-delete.html">
+    <navbar navbar-active="navbarActive" toggle-navbar-active="toggleNavbarActive"></navbar>
+
+    <div class="section">
+      <div class="container">
+        <h1 class="title is-1">Blog Delete</h1>
+        <p class="subtitle is-3">Delete a blog!</p>
+      </div>
+    </div>
+
+    <blogform blog="blog" editable="editable" handle-cancel="handleCancel" handle-submit="handleSubmit"></blogform>
+  </script>
+
+  <script type="text/ng-template" id="templates/blogs-edit.html">
+    <navbar navbar-active="navbarActive" toggle-navbar-active="toggleNavbarActive"></navbar>
+
+    <div class="section">
+      <div class="container">
+        <h1 class="title is-1">Blog Edit</h1>
+        <p class="subtitle is-3">Update a blog!</p>
+      </div>
+    </div>
+
+    <blogform blog="blog" editable="editable" handle-cancel="handleCancel" handle-submit="handleSubmit"></blogform>
+  </script>
+
+  <body>
+    <div ng-view></div>
+    <script src="js/app.js"></script>
+  </body>
+</html>

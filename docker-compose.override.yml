@@ -5,4 +5,4 @@ services:
     command: npm run dev
     volumes:
       - ./app_api:/app/app_api
-      - ./app_server:/app/app_server
+      - ./app_client:/app/app_client

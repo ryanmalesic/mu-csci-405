@@ -1,4 +1,4 @@
-<form method="POST">
+<form novalidate>
   <div class="field is-horizontal">
     <div class="field-label is-normal">
       <label class="label">Author</label>
@@ -7,12 +7,12 @@
       <div class="field">
         <p class="control is-expanded">
           <input
-            required
+            ng-disabled="!editable"
             name="authorName"
             class="input"
             type="text"
             placeholder="Name - Ryan Malesic"
-            value="<%= blog ? blog.author.name : '' %>"
+            ng-model="blog.author.name"
           />
         </p>
       </div>
@@ -22,12 +22,12 @@
         </p>
         <p class="control is-expanded">
           <input
-            required
+            ng-disabled="!editable"
             name="authorHandle"
             class="input"
             type="text"
             placeholder="Handle - ryanmalesic"
-            value="<%= blog ? blog.author.handle : '' %>"
+            ng-model="blog.author.handle"
           />
         </p>
       </div>
@@ -40,12 +40,12 @@
       <div class="field">
         <p class="control is-expanded">
           <input
-            required
+            ng-disabled="!editable"
             name="authorAvatar"
             class="input"
             type="text"
             placeholder="Profile picture url - https://icon-library.net/images/anonymous-avatar-icon/anonymous-avatar-icon-13.jpg"
-            value="<%= blog ? blog.author.avatar : '' %>"
+            ng-model="blog.author.avatar"
           />
         </p>
       </div>
@@ -60,12 +60,12 @@
       <div class="field">
         <p class="control is-expanded">
           <input
-            required
+            ng-disabled="!editable"
             name="title"
             class="input"
             type="text"
             placeholder="Lorum Ipsum 1"
-            value="<%= blog ? blog.title : '' %>"
+            ng-model="blog.title"
           />
         </p>
       </div>
@@ -79,8 +79,12 @@
     <div class="field-body">
       <div class="field">
         <div class="control">
-          <textarea required name="content" class="textarea">
-            <%= blog ? blog.content : '' %>
+          <textarea
+            ng-disabled="!editable"
+            ng-model="blog.content"
+            name="content"
+            class="textarea"
+          >
           </textarea>
         </div>
       </div>
@@ -95,12 +99,12 @@
       <div class="field">
         <p class="control is-expanded">
           <input
-            required
+            ng-disabled="!editable"
             name="tags"
             class="input"
             type="text"
             placeholder="mean,mongo,express,angular,node,docker,webdev"
-            value="<%= blog ? blog.tags.join(',') : '' %>"
+            ng-model="blog.tags"
           />
         </p>
       </div>
@@ -112,7 +116,14 @@
     <div class="field-body">
       <div class="field">
         <div class="control">
-          <button type="submit" class="button is-primary">Go</button>
+          <button ng-click="handleCancel()()" class="button">Cancel</button>
+        </div>
+      </div>
+      <div class="field">
+        <div class="control">
+          <button ng-click="handleSubmit()(blog)" class="button is-primary">
+            Submit
+          </button>
         </div>
       </div>
     </div>
