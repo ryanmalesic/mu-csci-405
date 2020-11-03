@@ -19,11 +19,11 @@
   </head>
 
   <script type="text/ng-template" id="templates/home.html">
-    <navbar navbar-active="navbarActive" toggle-navbar-active="toggleNavbarActive"></navbar>
+    <navbar email="email" logout="logout" navbar-active="navbarActive" toggle-navbar-active="toggleNavbarActive"></navbar>
   </script>
 
   <script type="text/ng-template" id="templates/blogs.html">
-    <navbar navbar-active="navbarActive" toggle-navbar-active="toggleNavbarActive"></navbar>
+    <navbar email="email" logout="logout" navbar-active="navbarActive" toggle-navbar-active="toggleNavbarActive"></navbar>
 
     <div class="section">
       <div class="container">
@@ -36,7 +36,7 @@
   </script>
 
   <script type="text/ng-template" id="templates/blogs-add.html">
-    <navbar navbar-active="navbarActive" toggle-navbar-active="toggleNavbarActive"></navbar>
+    <navbar email="email" logout="logout" navbar-active="navbarActive" toggle-navbar-active="toggleNavbarActive"></navbar>
 
     <div class="section">
       <div class="container">
@@ -53,7 +53,7 @@
   </script>
 
   <script type="text/ng-template" id="templates/blogs-delete.html">
-    <navbar navbar-active="navbarActive" toggle-navbar-active="toggleNavbarActive"></navbar>
+    <navbar email="email" logout="logout" navbar-active="navbarActive" toggle-navbar-active="toggleNavbarActive"></navbar>
 
     <div class="section">
       <div class="container">
@@ -62,11 +62,15 @@
       </div>
     </div>
 
-    <blogform blog="blog" editable="editable" handle-cancel="handleCancel" handle-submit="handleSubmit"></blogform>
+    <div class="section">
+      <div class="container">
+        <blogform blog="blog" editable="editable" handle-cancel="handleCancel" handle-submit="handleSubmit"></blogform>
+      </div>
+    </div>
   </script>
 
   <script type="text/ng-template" id="templates/blogs-edit.html">
-    <navbar navbar-active="navbarActive" toggle-navbar-active="toggleNavbarActive"></navbar>
+    <navbar email="email" logout="logout" navbar-active="navbarActive" toggle-navbar-active="toggleNavbarActive"></navbar>
 
     <div class="section">
       <div class="container">
@@ -75,7 +79,46 @@
       </div>
     </div>
 
-    <blogform blog="blog" editable="editable" handle-cancel="handleCancel" handle-submit="handleSubmit"></blogform>
+    <div class="section">
+      <div class="container">
+        <blogform blog="blog" editable="editable" handle-cancel="handleCancel" handle-submit="handleSubmit"></blogform>
+      </div>
+    </div>
+  </script>
+
+  <script type="text/ng-template" id="templates/login.html">
+    <navbar email="email" logout="logout" navbar-active="navbarActive" toggle-navbar-active="toggleNavbarActive"></navbar>
+
+    <div class="section">
+      <div class="container">
+        <h1 class="title is-1">Login</h1>
+        <p class="subtitle is-3">Welcome Back!</p>
+      </div>
+    </div>
+
+
+    <div class="section">
+      <div class="container">
+        <loginform error="error"  handle-submit="handleSubmit"></loginform>
+      </div>
+    </div>
+  </script>
+
+  <script type="text/ng-template" id="templates/register.html">
+    <navbar email="email" logout="logout" navbar-active="navbarActive" toggle-navbar-active="toggleNavbarActive"></navbar>
+
+    <div class="section">
+      <div class="container">
+        <h1 class="title is-1">Register</h1>
+        <p class="subtitle is-3">Get Started!</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="container">
+        <registerform error="error" handle-submit="handleSubmit"></registerform>
+      </div>
+    </div>
   </script>
 
   <body>

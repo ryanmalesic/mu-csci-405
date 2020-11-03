@@ -24,21 +24,35 @@ app.config(function ($locationProvider, $routeProvider) {
       templateUrl: "templates/blogs-edit.html",
       controller: "BlogsEditController",
     })
+    .when("/login", {
+      templateUrl: "templates/login.html",
+      controller: "LoginController",
+    })
+    .when("/register", {
+      templateUrl: "templates/register.html",
+      controller: "RegisterController",
+    })
     .otherwise({ redirectTo: "/" });
 });
 
-app.controller("HomeController", function ($scope) {
+function addNavbar($scope, $window) {
   $scope.navbarActive = false;
   $scope.toggleNavbarActive = function () {
     $scope.navbarActive = !$scope.navbarActive;
   };
+  $scope.email = !!$window.localStorage.getItem("bloggerToken");
+  $scope.logout = function () {
+    $window.localStorage.removeItem("bloggerToken");
+    $scope.email = !$scope.email;
+  };
+}
+
+app.controller("HomeController", function ($scope, $window) {
+  addNavbar($scope, $window);
 });
 
-app.controller("BlogsController", function ($scope, $http) {
-  $scope.navbarActive = false;
-  $scope.toggleNavbarActive = function () {
-    $scope.navbarActive = !$scope.navbarActive;
-  };
+app.controller("BlogsController", function ($scope, $http, $window) {
+  addNavbar($scope, $window);
 
   $http.get("/api/blogs").then(function (response) {
     $scope.blogs = response.data;
@@ -49,12 +63,10 @@ app.controller("BlogsAddController", function (
   $scope,
   $http,
   $location,
-  $route
+  $route,
+  $window
 ) {
-  $scope.navbarActive = false;
-  $scope.toggleNavbarActive = function () {
-    $scope.navbarActive = !$scope.navbarActive;
-  };
+  addNavbar($scope, $window);
 
   $scope.blog = {
     author: {
@@ -95,12 +107,10 @@ app.controller("BlogsDeleteController", function (
   $http,
   $location,
   $route,
-  $routeParams
+  $routeParams,
+  $window
 ) {
-  $scope.navbarActive = false;
-  $scope.toggleNavbarActive = function () {
-    $scope.navbarActive = !$scope.navbarActive;
-  };
+  addNavbar($scope, $window);
 
   $scope.editable = false;
 
@@ -124,12 +134,10 @@ app.controller("BlogsEditController", function (
   $http,
   $location,
   $route,
-  $routeParams
+  $routeParams,
+  $window
 ) {
-  $scope.navbarActive = false;
-  $scope.toggleNavbarActive = function () {
-    $scope.navbarActive = !$scope.navbarActive;
-  };
+  addNavbar($scope, $window);
 
   $http.get(`/api/blogs/${$routeParams.blogId}`).then(
     function successCallback(response) {
@@ -161,10 +169,59 @@ app.controller("BlogsEditController", function (
   };
 });
 
+app.controller("LoginController", function (
+  $scope,
+  $http,
+  $location,
+  $route,
+  $window
+) {
+  addNavbar($scope, $window);
+
+  $scope.handleSubmit = function (user) {
+    $http.post(`/api/login`, user).then(
+      function successCallback(response) {
+        $scope.error = false;
+        $window.localStorage.setItem("bloggerToken", response.data.token);
+        $location.path("/blogs");
+        $route.reload();
+      },
+      function errorCallback(response) {
+        $scope.error = true;
+      }
+    );
+  };
+});
+
+app.controller("RegisterController", function (
+  $scope,
+  $http,
+  $location,
+  $route,
+  $window
+) {
+  addNavbar($scope, $window);
+
+  $scope.handleSubmit = function (user) {
+    $http.post(`/api/register`, user).then(
+      function successCallback(response) {
+        $scope.error = false;
+        $location.path("/login");
+        $route.reload();
+      },
+      function errorCallback(response) {
+        $scope.error = true;
+      }
+    );
+  };
+});
+
 app.directive("navbar", function () {
   return {
     restrict: "E",
     scope: {
+      email: "=",
+      logout: "&",
       navbarActive: "=",
       toggleNavbarActive: "&",
     },
@@ -195,6 +252,32 @@ app.directive("bloglist", function () {
     replace: true,
     scope: {
       blogs: "=",
+    },
+    link: function (scope, elm, attrs) {},
+  };
+});
+
+app.directive("loginform", function () {
+  return {
+    restrict: "E",
+    templateUrl: "partials/login-form.html",
+    replace: true,
+    scope: {
+      error: "=",
+      handleSubmit: "&",
+    },
+    link: function (scope, elm, attrs) {},
+  };
+});
+
+app.directive("registerform", function () {
+  return {
+    restrict: "E",
+    templateUrl: "partials/register-form.html",
+    replace: true,
+    scope: {
+      error: "=",
+      handleSubmit: "&",
     },
     link: function (scope, elm, attrs) {},
   };

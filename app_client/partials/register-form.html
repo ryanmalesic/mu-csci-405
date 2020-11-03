@@ -1,0 +1,44 @@
+<form novalidate>
+  <div class="field">
+    <label class="label">Full Name</label>
+    <div class="control">
+      <input
+        ng-model="user.name"
+        class="input"
+        type="text"
+        placeholder="e.g Ryan Malesic"
+      />
+    </div>
+  </div>
+
+  <div class="field">
+    <label class="label">Email</label>
+    <div class="control">
+      <input
+        ng-model="user.email"
+        class="input"
+        type="email"
+        placeholder="e.g. ryanmalesic@icloud.com"
+      />
+    </div>
+  </div>
+
+  <div class="field">
+    <label class="label">Password</label>
+    <div class="control">
+      <input ng-model="user.password" class="input" type="password" />
+    </div>
+  </div>
+
+  <div class="field">
+    <p class="control">
+      <button
+        ng-click="handleSubmit()(user)"
+        ng-class="!!error ? 'button is-danger' : 'button is-success'"
+      >
+        Login
+      </button>
+    </p>
+  </div>
+  <p ng-if="!!error" class="help is-danger">Email already taken</p>
+</form>

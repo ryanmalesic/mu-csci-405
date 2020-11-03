@@ -23,7 +23,24 @@
     <div class="navbar-start">
       <a class="navbar-item" href="/"> My Blog </a>
       <a class="navbar-item" href="/blogs"> List Blogs </a>
-      <a class="navbar-item" href="/blogs/add"> Add Blog </a>
+      <a ng-if="email" class="navbar-item" href="/blogs/add"> Add Blog </a>
+    </div>
+
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <div ng-if="!email" class="buttons">
+          <a href="/register" class="button is-primary">
+            <strong>Register</strong>
+          </a>
+          <a href="/login" class="button is-light"> Login </a>
+        </div>
+
+        <div ng-if="email" class="buttons">
+          <a ng-click="logout()()" class="button is-primary">
+            <strong>Log Out</strong>
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 </nav>

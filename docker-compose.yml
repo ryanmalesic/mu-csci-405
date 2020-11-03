@@ -1,11 +1,12 @@
 version: "3.8"
 services:
   app:
-    image: ryanmalesic/mu-csci-406-lab4-app
+    image: ryanmalesic/mu-csci-406-lab6-app
     depends_on:
       - mongo
     environment:
       PORT: ${PORT}
+      SECRET: ${SECRET}
     ports:
       - ${PORT}:${PORT}
     restart: always
