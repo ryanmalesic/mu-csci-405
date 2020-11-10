@@ -1,59 +1,6 @@
 <form novalidate>
   <div class="field is-horizontal">
     <div class="field-label is-normal">
-      <label class="label">Author</label>
-    </div>
-    <div class="field-body">
-      <div class="field">
-        <p class="control is-expanded">
-          <input
-            ng-disabled="!editable"
-            name="authorName"
-            class="input"
-            type="text"
-            placeholder="Name - Ryan Malesic"
-            ng-model="blog.author.name"
-          />
-        </p>
-      </div>
-      <div class="field has-addons">
-        <p class="control">
-          <a class="button is-static"> @ </a>
-        </p>
-        <p class="control is-expanded">
-          <input
-            ng-disabled="!editable"
-            name="authorHandle"
-            class="input"
-            type="text"
-            placeholder="Handle - ryanmalesic"
-            ng-model="blog.author.handle"
-          />
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <div class="field is-horizontal">
-    <div class="field-label"></div>
-    <div class="field-body">
-      <div class="field">
-        <p class="control is-expanded">
-          <input
-            ng-disabled="!editable"
-            name="authorAvatar"
-            class="input"
-            type="text"
-            placeholder="Profile picture url - https://icon-library.net/images/anonymous-avatar-icon/anonymous-avatar-icon-13.jpg"
-            ng-model="blog.author.avatar"
-          />
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <div class="field is-horizontal">
-    <div class="field-label is-normal">
       <label class="label">Title</label>
     </div>
     <div class="field-body">
@@ -87,26 +34,6 @@
           >
           </textarea>
         </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="field is-horizontal">
-    <div class="field-label is-normal">
-      <label class="label">Comma-Separated Tags</label>
-    </div>
-    <div class="field-body">
-      <div class="field">
-        <p class="control is-expanded">
-          <input
-            ng-disabled="!editable"
-            name="tags"
-            class="input"
-            type="text"
-            placeholder="mean,mongo,express,angular,node,docker,webdev"
-            ng-model="blog.tags"
-          />
-        </p>
       </div>
     </div>
   </div>

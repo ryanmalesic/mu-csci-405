@@ -6,24 +6,15 @@
           <a ng-href="/blogs/{{blog._id}}">
             <div class="card-content">
               <div class="media">
-                <div class="media-left">
-                  <figure class="image is-48x48">
-                    <img ng-src="{{blog.author.avatar}}" alt="Profile avatar" />
-                  </figure>
-                </div>
                 <div class="media-content">
                   <p class="title is-4">{{blog.author.name}}</p>
-                  <p class="subtitle is-6">{{blog.author.handle}}</p>
+                  <p class="subtitle is-6">{{blog.author.email}}</p>
                 </div>
               </div>
 
               <h3 class="title is-3">{{blog.title}}</h3>
               <div class="content">
                 <p>{{blog.content.substring(0, 125)}}...</p>
-
-                <p>
-                  <a ng-repeat="tag in blog.tags" href="#">#{{tag}}</a>
-                </p>
 
                 <p>
                   <b>Created</b>
@@ -38,7 +29,7 @@
               </div>
             </div>
 
-            <footer class="card-footer">
+            <footer ng-if="email === blog.author.email" class="card-footer">
               <a ng-href="/blogs/{{blog._id}}/edit" class="card-footer-item"
                 >Edit</a
               >

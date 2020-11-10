@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const User = require("../models/auth");
+const { isAuthenticated } = require("../utils/auth");
 const { sendJsonResponse, sendErrorResponse } = require("../utils/json");
 
 const AuthController = {
@@ -46,9 +47,22 @@ const AuthController = {
       }
 
       sendJsonResponse(res, 200, {
-        token: jwt.sign({ email: user.email }, process.env.SECRET),
+        token: jwt.sign(
+          { email: user.email, name: user.name },
+          process.env.SECRET
+        ),
       });
     });
+  },
+  me: (req, res) => {
+    const user = isAuthenticated(req.header("Authorization").substring(7));
+
+    if (!user) {
+      sendJsonResponse(res, 401, null);
+      return;
+    }
+
+    sendJsonResponse(res, 200, { email: user.email });
   },
 };
 

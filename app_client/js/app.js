@@ -37,21 +37,42 @@ app.config(function ($locationProvider, $routeProvider) {
 
 function addNavbar($scope, $window) {
   $scope.navbarActive = false;
-  $scope.toggleNavbarActive = function () {
+  ($scope.toggleNavbarActive = function () {
     $scope.navbarActive = !$scope.navbarActive;
-  };
-  $scope.email = !!$window.localStorage.getItem("bloggerToken");
-  $scope.logout = function () {
-    $window.localStorage.removeItem("bloggerToken");
-    $scope.email = !$scope.email;
-  };
+  }),
+    ($scope.logout = function () {
+      $window.localStorage.removeItem("bloggerToken");
+      $scope.email = !$scope.email;
+    });
 }
 
-app.controller("HomeController", function ($scope, $window) {
+function getCurrentUser($http, $scope, $window) {
+  $http
+    .get("/api/me", {
+      headers: {
+        Authorization: `Bearer ${$window.localStorage.getItem("bloggerToken")}`,
+      },
+    })
+    .then(
+      function successCallback(response) {
+        $scope.email = response.data.email;
+      },
+      function errorCallback(response) {}
+    );
+}
+
+app.controller("HomeController", function ($scope, $http, $rootScope, $window) {
+  getCurrentUser($http, $scope, $window);
   addNavbar($scope, $window);
 });
 
-app.controller("BlogsController", function ($scope, $http, $window) {
+app.controller("BlogsController", function (
+  $scope,
+  $rootScope,
+  $http,
+  $window
+) {
+  getCurrentUser($http, $scope, $window);
   addNavbar($scope, $window);
 
   $http.get("/api/blogs").then(function (response) {
@@ -61,22 +82,18 @@ app.controller("BlogsController", function ($scope, $http, $window) {
 
 app.controller("BlogsAddController", function (
   $scope,
+  $rootScope,
   $http,
   $location,
   $route,
   $window
 ) {
+  getCurrentUser($http, $scope, $window);
   addNavbar($scope, $window);
 
   $scope.blog = {
-    author: {
-      avatar: "",
-      handle: "",
-      name: "",
-    },
     title: "",
     content: "",
-    tags: "",
   };
 
   $scope.editable = true;
@@ -86,31 +103,42 @@ app.controller("BlogsAddController", function (
   };
 
   $scope.handleSubmit = function (blog) {
-    if (!blog.author.handle.includes("@")) {
-      blog.author.handle = "@" + blog.author.handle;
-    }
-
-    blog.tags = blog.tags.split(",");
-
-    $http.post("/api/blogs", blog).then(
-      function successCallback(response) {
-        $location.path("/blogs");
-        $route.reload();
-      },
-      function errorCallback(response) {}
-    );
+    $http
+      .post("/api/blogs", blog, {
+        headers: {
+          Authorization: `Bearer ${$window.localStorage.getItem(
+            "bloggerToken"
+          )}`,
+        },
+      })
+      .then(
+        function successCallback(response) {
+          $location.path("/blogs");
+          $route.reload();
+        },
+        function errorCallback(response) {}
+      );
   };
 });
 
 app.controller("BlogsDeleteController", function (
   $scope,
+  $rootScope,
   $http,
   $location,
   $route,
   $routeParams,
   $window
 ) {
+  getCurrentUser($http, $scope, $window);
   addNavbar($scope, $window);
+
+  $http.get(`/api/blogs/${$routeParams.blogId}`).then(
+    function successCallback(response) {
+      $scope.blog = response.data;
+    },
+    function errorCallback(response) {}
+  );
 
   $scope.editable = false;
 
@@ -119,24 +147,34 @@ app.controller("BlogsDeleteController", function (
   };
 
   $scope.handleSubmit = function (blog) {
-    $http.delete(`/api/blogs/${$routeParams.blogId}`, blog).then(
-      function successCallback(response) {
-        $location.path("/blogs");
-        $route.reload();
-      },
-      function errorCallback(response) {}
-    );
+    $http
+      .delete(`/api/blogs/${$routeParams.blogId}`, {
+        headers: {
+          Authorization: `Bearer ${$window.localStorage.getItem(
+            "bloggerToken"
+          )}`,
+        },
+      })
+      .then(
+        function successCallback(response) {
+          $location.path("/blogs");
+          $route.reload();
+        },
+        function errorCallback(response) {}
+      );
   };
 });
 
 app.controller("BlogsEditController", function (
   $scope,
+  $rootScope,
   $http,
   $location,
   $route,
   $routeParams,
   $window
 ) {
+  getCurrentUser($http, $scope, $window);
   addNavbar($scope, $window);
 
   $http.get(`/api/blogs/${$routeParams.blogId}`).then(
@@ -153,35 +191,40 @@ app.controller("BlogsEditController", function (
   };
 
   $scope.handleSubmit = function (blog) {
-    if (!blog.author.handle.includes("@")) {
-      blog.author.handle = "@" + blog.author.handle;
-    }
-
-    blog.tags = blog.tags.split(",");
-
-    $http.put(`/api/blogs/${$routeParams.blogId}`, blog).then(
-      function successCallback(response) {
-        $location.path("/blogs");
-        $route.reload();
-      },
-      function errorCallback(response) {}
-    );
+    $http
+      .put(`/api/blogs/${$routeParams.blogId}`, blog, {
+        headers: {
+          Authorization: `Bearer ${$window.localStorage.getItem(
+            "bloggerToken"
+          )}`,
+        },
+      })
+      .then(
+        function successCallback(response) {
+          $location.path("/blogs");
+          $route.reload();
+        },
+        function errorCallback(response) {}
+      );
   };
 });
 
 app.controller("LoginController", function (
   $scope,
+  $rootScope,
   $http,
   $location,
   $route,
   $window
 ) {
+  getCurrentUser($http, $scope, $window);
   addNavbar($scope, $window);
 
   $scope.handleSubmit = function (user) {
     $http.post(`/api/login`, user).then(
       function successCallback(response) {
         $scope.error = false;
+        $rootScope.email = user.email;
         $window.localStorage.setItem("bloggerToken", response.data.token);
         $location.path("/blogs");
         $route.reload();
@@ -195,11 +238,13 @@ app.controller("LoginController", function (
 
 app.controller("RegisterController", function (
   $scope,
+  $rootScope,
   $http,
   $location,
   $route,
   $window
 ) {
+  getCurrentUser($http, $scope, $window);
   addNavbar($scope, $window);
 
   $scope.handleSubmit = function (user) {
@@ -251,6 +296,7 @@ app.directive("bloglist", function () {
     templateUrl: "partials/blog-list.html",
     replace: true,
     scope: {
+      email: "=",
       blogs: "=",
     },
     link: function (scope, elm, attrs) {},

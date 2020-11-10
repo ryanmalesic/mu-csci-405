@@ -13,5 +13,6 @@ router.delete("/blogs/:id", BlogController.delete);
 
 router.post("/register", AuthController.register);
 router.post("/login", AuthController.login);
+router.get("/me", AuthController.me);
 
 module.exports = router;
