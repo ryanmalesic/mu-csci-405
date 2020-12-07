@@ -97,29 +97,29 @@ app.controller("ChatController", function ($scope, $http, $interval, $window) {
         },
         function errorCallback(response) {}
       );
-
-    $scope.callAtInterval = function () {
-      $http.get(`/api/messages`).then(
-        function successCallback(response) {
-          $scope.messages = response.data;
-        },
-        function errorCallback(response) {}
-      );
-    };
-
-    var promise = $interval(
-      function () {
-        $scope.callAtInterval();
-      },
-      1000,
-      0,
-      true
-    );
-
-    $scope.$on("$destroy", function () {
-      if (promise) $interval.cancel(promise);
-    });
   };
+
+  $scope.callAtInterval = function () {
+    $http.get(`/api/messages`).then(
+      function successCallback(response) {
+        $scope.messages = response.data;
+      },
+      function errorCallback(response) {}
+    );
+  };
+
+  var promise = $interval(
+    function () {
+      $scope.callAtInterval();
+    },
+    1000,
+    0,
+    true
+  );
+
+  $scope.$on("$destroy", function () {
+    if (promise) $interval.cancel(promise);
+  });
 });
 
 app.controller("HomeController", function ($scope, $http, $rootScope, $window) {
