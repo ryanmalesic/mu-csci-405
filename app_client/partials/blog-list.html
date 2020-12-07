@@ -2,43 +2,11 @@
   <div class="container">
     <div class="columns is-multiline">
       <div ng-repeat="blog in blogs" class="column">
-        <div class="card">
-          <a ng-href="/blogs/{{blog._id}}">
-            <div class="card-content">
-              <div class="media">
-                <div class="media-content">
-                  <p class="title is-4">{{blog.author.name}}</p>
-                  <p class="subtitle is-6">{{blog.author.email}}</p>
-                </div>
-              </div>
-
-              <h3 class="title is-3">{{blog.title}}</h3>
-              <div class="content">
-                <p>{{blog.content.substring(0, 125)}}...</p>
-
-                <p>
-                  <b>Created</b>
-                  <time>{{blog.createdOn}}</time>
-
-                  <br ng-if="blog.createdOn !== blog.lastEditedOn" />
-                  <b ng-if="blog.createdOn !== blog.lastEditedOn">Edited</b>
-                  <time ng-if="blog.createdOn !== blog.lastEditedOn"
-                    >{{blog.lastEditedOn}}</time
-                  >
-                </p>
-              </div>
-            </div>
-
-            <footer ng-if="email === blog.author.email" class="card-footer">
-              <a ng-href="/blogs/{{blog._id}}/edit" class="card-footer-item"
-                >Edit</a
-              >
-              <a ng-href="/blogs/{{blog._id}}/delete" class="card-footer-item"
-                >Delete</a
-              >
-            </footer>
-          </a>
-        </div>
+        <blogview
+          blog="blog"
+          email="email"
+          handle-cheer="handleCheer()"
+        ></blogview>
       </div>
     </div>
   </div>

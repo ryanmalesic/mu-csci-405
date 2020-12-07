@@ -1,6 +1,14 @@
 const moment = require("moment");
 const mongoose = require("mongoose");
 
+const commentSchema = mongoose.Schema({
+  author: {
+    name: { type: String, required: true },
+    email: { type: String, required: true },
+  },
+  body: { type: String, required: true },
+});
+
 const blogSchema = mongoose.Schema({
   author: {
     name: { type: String, required: true },
@@ -10,6 +18,8 @@ const blogSchema = mongoose.Schema({
   content: { type: String, required: true },
   createdOn: { type: Date, default: Date.now },
   lastEditedOn: { type: Date },
+  comments: [commentSchema],
+  cheers: { type: Number, default: () => 0 },
 });
 
 const Blog = mongoose.model("Blog", blogSchema);
@@ -25,6 +35,7 @@ const seed = () => {
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Id volutpat lacus laoreet non.",
     createdOn: moment().subtract(3, "days").toDate(),
     lastEditedOn: moment().subtract(1, "days").toDate(),
+    comments: [],
   }).save();
 
   new Blog({
@@ -37,6 +48,7 @@ const seed = () => {
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Pellentesque diam volutpat commodo sed egestas egestas fringilla.",
     createdOn: moment().subtract(2, "days").toDate(),
     lastEditedOn: moment().subtract(1, "days").toDate(),
+    comments: [],
   }).save();
 
   new Blog({
@@ -49,6 +61,7 @@ const seed = () => {
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Amet commodo nulla facilisi nullam vehicula.",
     createdOn: moment().subtract(1, "days").toDate(),
     lastEditedOn: moment().toDate(),
+    comments: [],
   }).save();
 };
 

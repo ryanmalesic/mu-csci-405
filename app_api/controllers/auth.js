@@ -55,6 +55,10 @@ const AuthController = {
     });
   },
   me: (req, res) => {
+    console.log(
+      req.header("Authorization"),
+      req.header("Authorization").substring(7)
+    );
     const user = isAuthenticated(req.header("Authorization").substring(7));
 
     if (!user) {

@@ -32,7 +32,39 @@
       </div>
     </div>
 
-    <bloglist blogs="blogs" email="email"></bloglist>
+    <bloglist blogs="blogs" email="email" handle-cheer="handleCheer"></bloglist>
+  </script>
+
+  <script type="text/ng-template" id="templates/blog.html">
+    <navbar email="email" logout="logout" navbar-active="navbarActive" toggle-navbar-active="toggleNavbarActive"></navbar>
+
+    <div class="section">
+      <div class="container mb-6">
+        <blogview blog="blog" email="email" handle-cheer="handleCheer"></blogview>
+      </div>
+
+      <h3 class="title is-3 mb-4">Leave a Comment</h3>
+
+      <div class="container mb-4">
+        <div class="field">
+          <div class="control">
+            <textarea ng-model="newComment" class="textarea"></textarea>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="control">
+            <button ng-click="handleComment(newComment)" class="button">Submit</button>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="title is-3 mb-4">Comments</h3>
+
+      <div ng-repeat="comment in blog.comments">
+        {{comment.author.name}}: {{comment.body}}
+      </div>
+    </div>
   </script>
 
   <script type="text/ng-template" id="templates/blogs-add.html">
@@ -117,6 +149,37 @@
     <div class="section">
       <div class="container">
         <registerform error="error" handle-submit="handleSubmit"></registerform>
+      </div>
+    </div>
+  </script>
+
+  <script type="text/ng-template" id="templates/chat.html">
+    <navbar email="email" logout="logout" navbar-active="navbarActive" toggle-navbar-active="toggleNavbarActive"></navbar>
+
+    <div class="section">
+      <div class="container">
+        <h1 class="title is-1">Chat</h1>
+        <p class="subtitle is-3">Talk with everyone!</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="container mb-4">
+        <div class="field">
+          <div class="control">
+            <textarea ng-model="newMessage" class="textarea"></textarea>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="control">
+            <button ng-click="handleMessage(newMessage)" class="button">Submit</button>
+          </div>
+        </div>
+      </div>
+
+      <div ng-repeat="message in messages">
+        <code><b>{{message.author.name}} @ {{message.createdOn}}</b>: {{message.text}}</code>
       </div>
     </div>
   </script>

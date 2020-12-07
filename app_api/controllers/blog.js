@@ -100,6 +100,64 @@ const BlogController = {
       sendJsonResponse(res, 204, null);
     });
   },
+  createComment: (req, res) => {
+    const user = isAuthenticated(req.header("Authorization").substring(7));
+
+    if (!user) {
+      sendJsonResponse(res, 401, null);
+      return;
+    }
+
+    Blog.findById(req.params.id).exec((err, blog) => {
+      if (err) {
+        sendErrorResponse(res, err.message);
+        return;
+      }
+
+      blog.comments.push({
+        ...req.body,
+        author: {
+          email: user.email,
+          name: user.name,
+        },
+      });
+
+      blog.save((err) => {
+        if (err) {
+          sendErrorResponse(res, err.message);
+          return;
+        }
+
+        sendJsonResponse(res, 201, blog);
+      });
+    });
+  },
+  cheer: (req, res) => {
+    const user = isAuthenticated(req.header("Authorization").substring(7));
+
+    if (!user) {
+      sendJsonResponse(res, 401, null);
+      return;
+    }
+
+    Blog.findById(req.params.id).exec((err, blog) => {
+      if (err) {
+        sendErrorResponse(res, err.message);
+        return;
+      }
+
+      blog.cheers += 1;
+
+      blog.save((err) => {
+        if (err) {
+          sendErrorResponse(res, err.message);
+          return;
+        }
+
+        sendJsonResponse(res, 201, blog);
+      });
+    });
+  },
 };
 
 module.exports = BlogController;
